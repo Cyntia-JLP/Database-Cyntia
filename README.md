@@ -908,7 +908,9 @@ Todo el código generado se encuentra en el fichero `auditorias.sql` .
 
 Las seis tablas que requieren auditoría son las que aparecen agrupadas bajo rectángulos morados en el diagrama del proyecto. Para cada una detallamos qué triggers se han creado y el razonamiento detrás de cada decisión.
 
+<div align="center">
 <figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FAmNcUswG6VzSx4G07Nr1%2Fmodelo.png?alt=media&#x26;token=6ae31f24-f1da-4652-b4f3-a88b442f6e64" alt=""><figcaption><p>Figura 4.1. Diagrama del proyecto con dichas tablas señaladas con un rectángulo morado</p></figcaption></figure>
+</div>
 
 ### 1.1. Tabla usuarios
 
@@ -1059,9 +1061,13 @@ SELECT org_id INTO v_org_id FROM agentes WHERE id = NEW.agente_id LIMIT 1;
 
 Una vez ejecutado el script, conviene verificar que los triggers se han registrado correctamente y que generan entradas coherentes en `registros_auditoria`.
 
+<div align="center">
 <figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FJul7UrkrQMQAqXuNZthQ%2Fimage.png?alt=media&#x26;token=2bbd98f8-aedf-43b2-8a00-6cc33bee4bf4" alt=""><figcaption><p><em>Figura 2. Registros generados en <code>registros_auditoria</code> tras operaciones de prueba. El campo <code>cambios</code> almacena en formato JSON los valores anteriores y nuevos de cada campo modificado.</em></p></figcaption></figure>
+</div>
 
+<div align="center">
 <figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2Fh21egtqCTgUuPsjryiUr%2Fimage.png?alt=media&#x26;token=817020b4-a266-4737-8e1d-0b462ed918b6" alt=""><figcaption><p><em>Figura 3. Triggers de auditoría visibles en el panel de navegación bajo la tabla <code>usuarios</code>.</em></p></figcaption></figure>
+</div>
 
 ***
 
