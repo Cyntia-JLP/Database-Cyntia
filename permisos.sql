@@ -100,6 +100,8 @@ GRANT SELECT ON cyntia.reglas TO 'cyntia_pro'@'%';
 GRANT SELECT ON cyntia.inteligencia_amenazas TO 'cyntia_pro'@'%';
 GRANT SELECT ON cyntia.respuestas_incidente TO 'cyntia_pro'@'%';
 
+SHOW GRANTS FOR 'cyntia_pro'@'%';
+
 -- ───────────────────────────────────────────
 --          Permisos para ENTERPRISE
 -- ───────────────────────────────────────────
