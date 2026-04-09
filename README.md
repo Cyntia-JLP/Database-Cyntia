@@ -76,9 +76,11 @@ A continuación describimos cada una de las tablas que componen la base de datos
 
 Este bloque contiene las tres tablas que gestionan el acceso al sistema: las organizaciones clientes, sus usuarios y las sesiones activas de cada usuario.
 
-#### Tabla `organizaciones`
+#### Tabla organizaciones
 
 Es la tabla raíz del sistema; todas las demás tablas dependen de ella directa o indirectamente a través de la clave foránea `org_id`.
+
+<div align="center">
 
 | Columna     | Tipo                              | Descripción                                                              |
 | ----------- | --------------------------------- | ------------------------------------------------------------------------ |
@@ -89,13 +91,19 @@ Es la tabla raíz del sistema; todas las demás tablas dependen de ella directa 
 | `activa`    | `TINYINT(1)`                      | Indica si la organización está activa (1) o desactivada (0)              |
 | `creado_en` | `DATETIME`                        | Fecha y hora de creación del registro                                    |
 
-*Tabla 1.1. Estructura de la tabla `organizaciones`.*
+</div>
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F1tu3drhe3H48EStylvKN%2Fimage.png?alt=media&#x26;token=25c75731-7276-43c1-99ca-09a5adffd0ea" alt=""><figcaption><p>Tabla 1.1. organizaciones</p></figcaption></figure>
+> *Tabla 1.1. Estructura de la tabla `organizaciones`.*
 
-#### Tabla `usuarios`
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F1tu3drhe3H48EStylvKN%2Fimage.png?alt=media&#x26;token=25c75731-7276-43c1-99ca-09a5adffd0ea" alt=""><figcaption><p>Figura 1.1. Tabla organizaciones</p></figcaption></figure>
+</div>
+
+#### Tabla usuarios
 
 Almacena las cuentas de acceso al sistema. Las contraseñas nunca se guardan en texto plano; siempre se almacena el hash resultante del proceso de cifrado realizado por la aplicación.
+
+<div align="center">
 
 | Columna               | Tipo                               | Descripción                                  |
 | --------------------- | ---------------------------------- | -------------------------------------------- |
@@ -110,7 +118,9 @@ Almacena las cuentas de acceso al sistema. Las contraseñas nunca se guardan en 
 | `ultimo_acceso`       | `DATETIME`                         | Fecha y hora del último inicio de sesión     |
 | `creado_en`           | `DATETIME`                         | Fecha y hora de creación del registro        |
 
-*Tabla 1.2. Estructura de la tabla `usuarios`.*
+</div>
+
+> *Tabla 1.2. Estructura de la tabla `usuarios`.*
 
 Los roles disponibles tienen el siguiente alcance dentro del sistema:
 
@@ -118,11 +128,15 @@ Los roles disponibles tienen el siguiente alcance dentro del sistema:
 * **`analyst`**: puede visualizar y gestionar alertas e incidentes.
 * **`viewer`**: acceso de solo lectura a los datos permitidos.
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FH9mzUFMHWTnKsk9pHSxq%2Fimage.png?alt=media&#x26;token=1302c93d-ab77-4b94-896b-3b2c3922e53f" alt=""><figcaption><p>Tabla 1.2. usuarios</p></figcaption></figure>
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FH9mzUFMHWTnKsk9pHSxq%2Fimage.png?alt=media&#x26;token=1302c93d-ab77-4b94-896b-3b2c3922e53f" alt=""><figcaption><p>Figura 1.2. Tabla usuarios</p></figcaption></figure>
+</div>
 
-#### Tabla `sesiones_usuario`
+#### Tabla sesiones\_usuario
 
 Registra cada sesión activa de un usuario, lo que permite invalidarlas de forma remota en caso de brecha de seguridad. La relación con `usuarios` usa `ON DELETE CASCADE`, de modo que si se elimina un usuario, sus sesiones se eliminan automáticamente.
+
+<div align="center">
 
 | Columna          | Tipo           | Descripción                                   |
 | ---------------- | -------------- | --------------------------------------------- |
@@ -134,9 +148,13 @@ Registra cada sesión activa de un usuario, lo que permite invalidarlas de forma
 | `expira_en`      | `DATETIME`     | Fecha y hora de caducidad del token           |
 | `creado_en`      | `DATETIME`     | Fecha y hora de creación de la sesión         |
 
-*Tabla 1.3. Estructura de la tabla `sesiones_usuario`.*
+</div>
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FD2KWNbrpW57hO3Njmf1E%2Fimage.png?alt=media&#x26;token=364dee8e-5a13-4e45-bb38-b79283988d4c" alt=""><figcaption><p>Tabla 1.3. sesiones_usuario</p></figcaption></figure>
+> *Tabla 1.3. Estructura de la tabla `sesiones_usuario`.*
+
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FD2KWNbrpW57hO3Njmf1E%2Fimage.png?alt=media&#x26;token=364dee8e-5a13-4e45-bb38-b79283988d4c" alt=""><figcaption><p>Figura 1.3. Tabla sesiones_usuario</p></figcaption></figure>
+</div>
 
 ***
 
@@ -144,9 +162,11 @@ Registra cada sesión activa de un usuario, lo que permite invalidarlas de forma
 
 Este bloque contiene las tablas que gestionan los flujos de verificación de correo electrónico y recuperación de contraseña, ambos basados en tokens de un solo uso con caducidad.
 
-#### Tabla `tokens_verificacion_email`
+#### Tabla tokens\_verificacion\_email
 
 Almacena el token que se envía al usuario por correo electrónico en el momento del registro, para confirmar que la dirección es válida.
+
+<div align="center">
 
 | Columna      | Tipo       | Descripción                                                 |
 | ------------ | ---------- | ----------------------------------------------------------- |
@@ -157,17 +177,23 @@ Almacena el token que se envía al usuario por correo electrónico en el momento
 | `usado_en`   | `DATETIME` | Fecha y hora en que se utilizó (NULL si aún no se ha usado) |
 | `creado_en`  | `DATETIME` | Fecha y hora de generación del token                        |
 
-*Tabla 1.4. Estructura de la tabla `tokens_verificacion_email`.*
+</div>
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F3kWcQdqqjVJuggMNUAJH%2Fimage.png?alt=media&#x26;token=faf02c43-ecab-4521-8b02-683a7d897ad6" alt=""><figcaption><p>Tabla 1.4. tokens_verificacion_email</p></figcaption></figure>
+> *Tabla 1.4. Estructura de la tabla `tokens_verificacion_email`.*
 
-#### Tabla `tokens_recuperacion_contrasena`
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F3kWcQdqqjVJuggMNUAJH%2Fimage.png?alt=media&#x26;token=faf02c43-ecab-4521-8b02-683a7d897ad6" alt=""><figcaption><p>Figura 1.4. Tabla tokens_verificacion_email</p></figcaption></figure>
+</div>
+
+#### Tabla tokens\_recuperacion\_contrasena
 
 Tiene una estructura idéntica a la anterior, pero su finalidad es el flujo de restablecimiento de contraseña. Al igual que en el caso anterior, el token solo puede usarse una vez.
 
-*Tabla 1.5. Estructura de la tabla `tokens_recuperacion_contrasena` (idéntica a `tokens_verificacion_email`).*
+> *Tabla 1.5. Estructura de la tabla `tokens_recuperacion_contrasena` (idéntica a `tokens_verificacion_email`).*
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FZLocPo8RB7UmyqOMeghH%2Fimage.png?alt=media&#x26;token=b0400706-f7cd-42f6-ab89-8aa76c13844a" alt=""><figcaption><p>Tabla 1.5. tokens_recuperacion_contrasena</p></figcaption></figure>
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FZLocPo8RB7UmyqOMeghH%2Fimage.png?alt=media&#x26;token=b0400706-f7cd-42f6-ab89-8aa76c13844a" alt=""><figcaption><p>Figura 1.5. Tabla tokens_recuperacion_contrasena</p></figcaption></figure>
+</div>
 
 ***
 
@@ -175,9 +201,11 @@ Tiene una estructura idéntica a la anterior, pero su finalidad es el flujo de r
 
 Este bloque es el núcleo operativo del SIEM: registra los equipos monitorizados y todos los eventos de seguridad que generan.
 
-#### Tabla `agentes`
+#### Tabla agentes
 
 Cada fila representa un endpoint (servidor, PC o máquina virtual) que tiene instalado el agente de Cyntia y que envía logs al sistema central.
+
+<div align="center">
 
 | Columna                  | Tipo                                 | Descripción                                          |
 | ------------------------ | ------------------------------------ | ---------------------------------------------------- |
@@ -191,13 +219,19 @@ Cada fila representa un endpoint (servidor, PC o máquina virtual) que tiene ins
 | `ultima_conexion`        | `DATETIME`                           | Última vez que el agente envió un latido al servidor |
 | `creado_en`              | `DATETIME`                           | Fecha de registro del agente en el sistema           |
 
-*Tabla 1.6. Estructura de la tabla `agentes`.*
+</div>
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FNHhynyCaPx8kUNE56Xz7%2Fimage.png?alt=media&#x26;token=d6975c45-6ffa-42b5-a8ee-b140220b3a7a" alt=""><figcaption><p>Tabla 1.6. agentes</p></figcaption></figure>
+> *Tabla 1.6. Estructura de la tabla `agentes`.*
 
-#### Tabla `eventos`
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FNHhynyCaPx8kUNE56Xz7%2Fimage.png?alt=media&#x26;token=d6975c45-6ffa-42b5-a8ee-b140220b3a7a" alt=""><figcaption><p>Figura 1.6. Tabla agentes</p></figcaption></figure>
+</div>
+
+#### Tabla eventos
 
 Es la tabla principal del SIEM y, potencialmente, la de mayor volumen de datos. Almacena cada log normalizado recibido de los agentes. Para optimizar las consultas más frecuentes, se han definido tres índices sobre las columnas `hora_evento`, `severidad` y `tactica_mitre`.
+
+<div align="center">
 
 | Columna              | Tipo          | Descripción                                      |
 | -------------------- | ------------- | ------------------------------------------------ |
@@ -212,9 +246,13 @@ Es la tabla principal del SIEM y, potencialmente, la de mayor volumen de datos. 
 | `hora_evento`        | `DATETIME`    | Momento en que ocurrió el evento                 |
 | `ingestado_en`       | `DATETIME`    | Momento en que fue recibido por el servidor      |
 
-*Tabla 1.7. Estructura de la tabla `eventos`.*
+</div>
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FUlp2I23vJVnDE7R3xvja%2Fimage.png?alt=media&#x26;token=0cb518e5-6ff3-43a5-8823-f1229d710846" alt=""><figcaption><p>Tabla 1.7. eventos</p></figcaption></figure>
+> *Tabla 1.7. Estructura de la tabla `eventos`.*
+
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FUlp2I23vJVnDE7R3xvja%2Fimage.png?alt=media&#x26;token=0cb518e5-6ff3-43a5-8823-f1229d710846" alt=""><figcaption><p>Figura 1.7. Tabla eventos</p></figcaption></figure>
+</div>
 
 ***
 
@@ -222,9 +260,11 @@ Es la tabla principal del SIEM y, potencialmente, la de mayor volumen de datos. 
 
 Este bloque implementa el motor de detección de amenazas: define las reglas que disparan alertas, gestiona el ciclo de vida de cada alerta y registra las acciones de respuesta tomadas.
 
-#### Tabla `reglas`
+#### Tabla reglas
 
 Contiene las reglas de detección del motor SIEM. Cuando un evento satisface la condición definida en `condicion_query`, el sistema genera una alerta automáticamente. Las reglas con `org_id` igual a `NULL` son globales y están disponibles para todas las organizaciones.
+
+<div align="center">
 
 | Columna                           | Tipo                                    | Descripción                                            |
 | --------------------------------- | --------------------------------------- | ------------------------------------------------------ |
@@ -238,13 +278,19 @@ Contiene las reglas de detección del motor SIEM. Cuando un evento satisface la 
 | `activa`                          | `TINYINT(1)`                            | Indica si la regla está en uso                         |
 | `creado_en`                       | `DATETIME`                              | Fecha de creación de la regla                          |
 
-*Tabla 1.8. Estructura de la tabla `reglas`.*
+</div>
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2Fj0KTQmmq8eJzwUSWqvwU%2Fimage.png?alt=media&#x26;token=181052d4-92fe-4768-ba95-4c312e233bc2" alt=""><figcaption><p>Tabla 1.8. reglas</p></figcaption></figure>
+> *Tabla 1.8. Estructura de la tabla `reglas`.*
 
-#### Tabla `alertas`
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2Fj0KTQmmq8eJzwUSWqvwU%2Fimage.png?alt=media&#x26;token=181052d4-92fe-4768-ba95-4c312e233bc2" alt=""><figcaption><p>Figura 1.8. Tabla reglas</p></figcaption></figure>
+</div>
+
+#### Tabla alertas
 
 Registra cada alerta generada cuando un evento satisface una regla. El ciclo de vida de una alerta pasa por los estados `abierta` → `en_progreso` → `resuelta` (o `falso_positivo`). La asignación a un analista puede hacerse manualmente o de forma automática mediante el procedimiento `crear_alerta`.
+
+<div align="center">
 
 | Columna        | Tipo                                                        | Descripción                                      |
 | -------------- | ----------------------------------------------------------- | ------------------------------------------------ |
@@ -260,25 +306,33 @@ Registra cada alerta generada cuando un evento satisface una regla. El ciclo de 
 | `disparada_en` | `DATETIME`                                                  | Momento en que se generó la alerta               |
 | `resuelta_en`  | `DATETIME`                                                  | Momento en que se cerró (gestionado por trigger) |
 
-*Tabla 1.9. Estructura de la tabla `alertas`.*
+</div>
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FWFN8oRQJQdXoeyTQ0XCc%2Fimage.png?alt=media&#x26;token=cf0cc424-42f0-4217-8a88-848dbacf0c02" alt=""><figcaption><p>Tabla 1.9. alertas</p></figcaption></figure>
+> *Tabla 1.9. Estructura de la tabla `alertas`.*
 
-#### Tabla `alertas_eventos`
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FWFN8oRQJQdXoeyTQ0XCc%2Fimage.png?alt=media&#x26;token=cf0cc424-42f0-4217-8a88-848dbacf0c02" alt=""><figcaption><p>Figura 1.9. Tabla alertas</p></figcaption></figure>
+</div>
+
+#### Tabla alertas\_eventos
 
 Es una tabla puente de relación N:M que vincula una alerta con uno o varios eventos que la originaron. El campo `es_evento_principal` permite marcar el evento más relevante de entre todos los asociados.
 
-*Tabla 1.10. Estructura de la tabla `alertas_eventos` (tabla de unión N:M entre `alertas` y `eventos`).*
+> *Tabla 1.10. Estructura de la tabla `alertas_eventos` (tabla de unión N:M entre `alertas` y `eventos`).*
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FLXp8kMR8gARr0A4n0L1Z%2Fimage.png?alt=media&#x26;token=8dc9abe0-78a8-4ae3-8af1-7cceda3544ac" alt=""><figcaption><p>Tabla 1.10. alertas_eventos</p></figcaption></figure>
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FLXp8kMR8gARr0A4n0L1Z%2Fimage.png?alt=media&#x26;token=8dc9abe0-78a8-4ae3-8af1-7cceda3544ac" alt=""><figcaption><p>Figura 1.10. Tabla alertas_eventos</p></figcaption></figure>
+</div>
 
-#### Tabla `respuestas_incidente`
+#### Tabla respuestas\_incidente
 
 Registra las acciones tomadas ante una alerta, ya sean automáticas (ejecutadas por el motor) o manuales (realizadas por un analista). Los tipos de acción disponibles son: `bloquear_ip`, `aislar_host`, `notificar_email`, `notificar_slack` y `ejecutar_script`.
 
-*Tabla 1.11. Estructura de la tabla `respuestas_incidente`.*
+> *Tabla 1.11. Estructura de la tabla `respuestas_incidente`.*
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F48j0adtbcan6wNuDMZUR%2Fimage.png?alt=media&#x26;token=576084bf-7009-4c0e-ab7e-a3a2a2d9c38f" alt=""><figcaption><p>Tabla 1.11. respuestas_incidente</p></figcaption></figure>
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F48j0adtbcan6wNuDMZUR%2Fimage.png?alt=media&#x26;token=576084bf-7009-4c0e-ab7e-a3a2a2d9c38f" alt=""><figcaption><p>Figura 1.11. Tabla respuestas_incidente</p></figcaption></figure>
+</div>
 
 ***
 
@@ -286,37 +340,45 @@ Registra las acciones tomadas ante una alerta, ya sean automáticas (ejecutadas 
 
 Este bloque gestiona los indicadores de compromiso (IOC), los canales de notificación y la generación de informes normativos.
 
-#### Tabla `inteligencia_amenazas`
+#### Tabla inteligencia\_amenazas
 
 Almacena indicadores de compromiso (IOCs) obtenidos de fuentes externas como MISP o VirusTotal. Los tipos de IOC soportados son: `ip`, `dominio`, `hash_md5`, `hash_sha256`, `url` y `email`. El campo `confianza` indica en una escala del 0 al 100 la fiabilidad del indicador.
 
-*Tabla 1.12. Estructura de la tabla `inteligencia_amenazas`.*
+> *Tabla 1.12. Estructura de la tabla `inteligencia_amenazas`.*
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F8YHhRHmy2PycW3F2PtB0%2Fimage.png?alt=media&#x26;token=f71cb86b-0064-49e0-b1b9-9a0a56c259e8" alt=""><figcaption><p>Tabla 1.12. inteligencia_amenazas</p></figcaption></figure>
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F8YHhRHmy2PycW3F2PtB0%2Fimage.png?alt=media&#x26;token=f71cb86b-0064-49e0-b1b9-9a0a56c259e8" alt=""><figcaption><p>Figura 1.12. Tabla inteligencia_amenazas</p></figcaption></figure>
+</div>
 
-#### Tabla `eventos_ioc`
+#### Tabla eventos\_ioc
 
 Tabla de unión N:M que registra qué IOCs han coincidido con qué eventos. El campo `campo_coincidencia` especifica en qué atributo del evento se ha encontrado la coincidencia.
 
 *Tabla 1.13. Estructura de la tabla `eventos_ioc` (tabla de unión N:M entre `eventos` e `inteligencia_amenazas`).*
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F3zGnsAdBH1pFNnJ1zVNx%2Fimage.png?alt=media&#x26;token=70360cd2-a152-405d-94c2-6129576f9ccb" alt=""><figcaption><p>Tabla 1.13. eventos_ioc</p></figcaption></figure>
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F3zGnsAdBH1pFNnJ1zVNx%2Fimage.png?alt=media&#x26;token=70360cd2-a152-405d-94c2-6129576f9ccb" alt=""><figcaption><p>Figura 1.13. Tabla eventos_ioc</p></figcaption></figure>
+</div>
 
-#### Tabla `canales_notificacion`
+#### Tabla canales\_notificacion
 
 Almacena los canales de notificación configurados por cada organización. Los tipos disponibles son `email`, `slack`, `webhook` y `telegram`. La configuración específica de cada canal (tokens, URLs, destinatarios) se almacena en formato JSON en el campo `configuracion`.
 
-*Tabla 1.14. Estructura de la tabla `canales_notificacion`.*
+> *Tabla 1.14. Estructura de la tabla `canales_notificacion`.*
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FXXRCGxaE0wgz0HZMuDgt%2Fimage.png?alt=media&#x26;token=2d431729-35af-4488-bad5-8e0332ccf5c5" alt=""><figcaption><p>Tabla 1.14. canales_notificacion</p></figcaption></figure>
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FXXRCGxaE0wgz0HZMuDgt%2Fimage.png?alt=media&#x26;token=2d431729-35af-4488-bad5-8e0332ccf5c5" alt=""><figcaption><p>Figura 1.14. Tabla canales_notificacion</p></figcaption></figure>
+</div>
 
-#### Tabla `informes_cumplimiento`
+#### Tabla informes\_cumplimiento
 
 Registra los informes normativos generados por el sistema para cada organización. Los marcos normativos soportados son PCI-DSS, ISO 27001 y el Esquema Nacional de Seguridad (ENS). La ruta al fichero generado se guarda en `ruta_fichero` una vez completado el proceso.
 
-*Tabla 1.15. Estructura de la tabla `informes_cumplimiento`.*
+> *Tabla 1.15. Estructura de la tabla `informes_cumplimiento`.*
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FHcoJrQZEYBtKiZzNatlM%2Fimage.png?alt=media&#x26;token=1c2eab96-1d1b-41f5-90d7-2b1e351d82d3" alt=""><figcaption><p>Tabla 1.15. informes_cumplimiento</p></figcaption></figure>
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FHcoJrQZEYBtKiZzNatlM%2Fimage.png?alt=media&#x26;token=1c2eab96-1d1b-41f5-90d7-2b1e351d82d3" alt=""><figcaption><p>Figura 1.15. Tabla informes_cumplimiento</p></figcaption></figure>
+</div>
 
 ***
 
@@ -324,9 +386,11 @@ Registra los informes normativos generados por el sistema para cada organizació
 
 Este bloque contiene la tabla de trazabilidad del sistema, diseñada para ser inmutable: ninguna acción realizada en Cyntia puede modificarse una vez registrada.
 
-#### Tabla `registros_auditoria`
+#### Tabla registros\_auditoria
 
 Registra todas las acciones realizadas por los usuarios en el sistema. La tupla (`accion`, `tipo_entidad`, `entidad_id`) identifica qué se hizo y sobre qué objeto. El campo `cambios` almacena en JSON los valores anteriores y posteriores a la modificación.
+
+<div align="center">
 
 | Columna        | Tipo           | Descripción                                 |
 | -------------- | -------------- | ------------------------------------------- |
@@ -340,9 +404,13 @@ Registra todas las acciones realizadas por los usuarios en el sistema. La tupla 
 | `direccion_ip` | `VARCHAR(45)`  | IP desde la que se realizó la acción        |
 | `creado_en`    | `DATETIME`     | Fecha y hora del registro                   |
 
-*Tabla 1.16. Estructura de la tabla `registros_auditoria`.*
+</div>
 
-<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FthKhhVxI70kyGb2VImcD%2Fimage.png?alt=media&#x26;token=ebed5543-07c4-4b8d-ac22-ce6210a21cff" alt=""><figcaption><p>Tabla 1.16. registros_auditoria</p></figcaption></figure>
+> *Tabla 1.16. Estructura de la tabla `registros_auditoria`.*
+
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FthKhhVxI70kyGb2VImcD%2Fimage.png?alt=media&#x26;token=ebed5543-07c4-4b8d-ac22-ce6210a21cff" alt=""><figcaption><p>Figura 1.16. Tabla registros_auditoria</p></figcaption></figure>
+</div>
 
 ***
 
@@ -350,8 +418,9 @@ Registra todas las acciones realizadas por los usuarios en el sistema. La tupla 
 
 Para visualizar de forma clara cómo se relacionan todas las tablas entre sí, hemos generado el modelo entidad-relación utilizando la herramienta **MySQL Workbench** (menú *Database → Reverse Engineer*). El modelo refleja todas las claves primarias, foráneas y las cardinalidades de las relaciones.
 
+<div align="center">
 <figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FAmNcUswG6VzSx4G07Nr1%2Fmodelo.png?alt=media&#x26;token=6ae31f24-f1da-4652-b4f3-a88b442f6e64" alt=""><figcaption><p><em>Figura 1.1. Modelo entidad-relación de la base de datos generado con MySQL Workbench. Se pueden observar las seis áreas funcionales y las relaciones de clave foránea entre las tablas.</em></p></figcaption></figure>
-
+</div>
 </details>
 
 
@@ -394,7 +463,9 @@ SELECT nombre_host, estado, agente_activo(id, 5) AS activo_hace_5min
 FROM agentes;
 ```
 
+<div align="center">
 <figure><picture><source srcset="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F7GnHzDPttWOKAzz9aFtx%2FCaptura%20de%20pantalla%202026-04-07%20193155.png?alt=media&#x26;token=ebded9a3-05fd-4c79-8025-63c5aa6c7c26" media="(prefers-color-scheme: dark)"><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2F7GnHzDPttWOKAzz9aFtx%2FCaptura%20de%20pantalla%202026-04-07%20193155.png?alt=media&#x26;token=ebded9a3-05fd-4c79-8025-63c5aa6c7c26" alt=""></picture><figcaption><p><em>Figura 2.1. Resultado de la consulta que utiliza la función <code>agente_activo</code>, donde la columna <code>activo_hace_5min</code> indica si cada agente ha enviado un latido en los últimos cinco minutos.</em></p></figcaption></figure>
+</div>
 
 #### Función `contar_alertas_abiertas`
 
@@ -423,6 +494,8 @@ FROM organizaciones;
 
 Traduce la severidad numérica de un evento (de 1 a 10) a una cadena de texto descriptiva, según la siguiente escala:
 
+<div align="center">
+
 | Rango de severidad | Texto devuelto |
 | ------------------ | -------------- |
 | 1 – 3              | `Informativo`  |
@@ -430,6 +503,8 @@ Traduce la severidad numérica de un evento (de 1 a 10) a una cadena de texto de
 | 6 – 7              | `Medio`        |
 | 8 – 9              | `Alto`         |
 | 10                 | `Critico`      |
+
+</div>
 
 > *Tabla 2.1. Correspondencia entre el valor numérico de severidad y el nivel de riesgo textual devuelto por la función `nivel_riesgo`.*
 
@@ -506,7 +581,9 @@ CALL crear_alerta(
 SELECT @mensaje;
 ```
 
+<div align="center">
 <figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FWSqEcW6jTSkRhWCg4UPx%2Fimage.png?alt=media&#x26;token=8ca028c1-959a-4919-94dd-8a53dd80bd52" alt=""><figcaption><p><em>Figura 2.2. Resultado de la llamada al procedimiento <code>crear_alerta</code>. El mensaje de salida confirma que la alerta ha sido registrada y muestra el identificador del analista al que ha sido asignada automáticamente.</em></p></figcaption></figure>
+</div>
 
 #### Procedimiento `limpiar_falsos_positivos`
 
@@ -595,12 +672,14 @@ BEGIN
 END;
 ```
 
+<div align="center">
 <figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FuiVc0aN7l2fS2sJZ34Hk%2Fimage.png?alt=media&#x26;token=702ee090-e62c-49ce-a0dc-3716499ba3c5" alt=""><figcaption><p><em>Figura 2.3. Resumen de los tres triggers implementados en la base de datos Cyntia, indicando la tabla afectada, el momento de ejecución y la acción que los activa.</em></p></figcaption></figure>
+</div>
 
 </details>
 
 <details>
-<summary>Permisos de usuario</summary>
+<summary>Permisos de usuarios</summary>
 
 # Permisos de usuario
 
@@ -614,12 +693,16 @@ La gestión del acceso a los datos es una parte fundamental de cualquier sistema
 
 Los cuatro usuarios creados en MySQL corresponden a los cuatro planes de suscripción de la plataforma Cyntia:
 
+<div align="center">
+
 | Usuario MySQL       | Plan       | Descripción general                                                                     |
 | ------------------- | ---------- | --------------------------------------------------------------------------------------- |
 | `cyntia_guest`      | Invitado   | Acceso mínimo de lectura; solo puede ver información básica y no sensible               |
 | `cyntia_demo`       | Demo       | Acceso limitado pensado para entornos de prueba o evaluación                            |
 | `cyntia_pro`        | Pro        | Acceso amplio a datos operativos; pensado para equipos de seguridad activos             |
 | `cyntia_enterprise` | Enterprise | Acceso casi total, incluyendo escritura en alertas y respuestas, y lectura de auditoría |
+
+</div>
 
 > *Tabla 3.1. Resumen de los cuatro tipos de usuario de base de datos y el plan al que corresponden.*
 
@@ -773,6 +856,8 @@ FLUSH PRIVILEGES;
 
 La siguiente tabla resume de forma visual qué puede hacer cada tipo de usuario con cada recurso de la base de datos.
 
+<div align="center">
+
 | Recurso                    |  guest |  demo  |   pro  |        enterprise        |
 | -------------------------- | :----: | :----: | :----: | :----------------------: |
 | `vista_agentes_guest`      | SELECT |    —   |    —   |          SELECT          |
@@ -789,9 +874,13 @@ La siguiente tabla resume de forma visual qué puede hacer cada tipo de usuario 
 | `alertas` (tabla base)     |    —   |    —   |    —   | SELECT + INSERT + UPDATE |
 | `registros_auditoria`      |    —   |    —   |    —   |          SELECT          |
 
+</div>
+
 > *Tabla 3.2. Matriz de permisos por tipo de usuario. El símbolo «—» indica que el usuario no tiene acceso al recurso correspondiente.*
 
+<div align="center">
 <figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FvSKGNK6nH1HoKigHdyj1%2Fimage.png?alt=media&#x26;token=f282e9af-8012-4c7c-9ed9-66998ff8a060" alt=""><figcaption><p><em>Figura 3.1. Resultado del comando <code>SHOW GRANTS</code> para el usuario <code>cyntia_pro</code>, que confirma que los privilegios han sido asignados correctamente según la política de mínimo privilegio definida.</em></p></figcaption></figure>
+</div>
 
 </details>
 
