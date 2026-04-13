@@ -45,7 +45,7 @@ La base de datos está organizada en seis bloques funcionales, cada uno agrupand
 | 3 - Infraestructura y eventos   | `agentes`, `eventos`                                                                    | Recepción y almacenamiento de logs             |
 | 4 - Detección y respuesta       | `reglas`, `alertas`, `alertas_eventos`, `respuestas_incidente`                          | Motor de detección y gestión de incidentes     |
 | 5 - Inteligencia y cumplimiento | `inteligencia_amenazas`, `eventos_ioc`, `canales_notificacion`, `informes_cumplimiento` | IOCs, notificaciones e informes normativos     |
-| 6 - Auditoría                   | `registros_auditoria`                                                                   | Trazabilidad de todas las acciones del sistema |
+| 6 - Auditoría                   | `registros_auditoria`, `actividad_cliente`                                              | Trazabilidad de todas las acciones del sistema y registro de actividad visible para el cliente |
 
 > *Tabla 1. Bloques funcionales de la base de datos y sus tablas principales.*
 
@@ -412,6 +412,28 @@ Registra todas las acciones realizadas por los usuarios en el sistema. La tupla 
 <figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2FthKhhVxI70kyGb2VImcD%2Fimage.png?alt=media&#x26;token=ebed5543-07c4-4b8d-ac22-ce6210a21cff" alt=""><figcaption><p>Figura 1.16. Tabla registros_auditoria</p></figcaption></figure>
 </div>
 
+#### Tabla actividad_cliente
+
+Es la tabla que permite a los clientes conocer qué operaciones se han realizado en su organización. Se rellena automáticamente mediante el trigger `propagar_actividad_cliente` cada vez que se inserta un registro en `registros_auditoria`, descartando los campos sensibles.
+
+<div align="center">
+
+| Columna | Tipo | Descripción |
+| :-- | :-- | :-- |
+| `id` | `CHAR(36)` | Identificador único del registro |
+| `org_id` | `CHAR(36)` | Organización a la que pertenece el registro |
+| `accion` | `VARCHAR(100)` | Nombre de la operación realizada |
+| `tipo_entidad` | `VARCHAR(50)` | Tipo de objeto afectado |
+| `creado_en` | `DATETIME` | Fecha y hora del registro |
+
+</div>
+
+> *Tabla 1.17. Estructura de la tabla `actividad_cliente`.*
+
+<div align="center">
+<figure><img src="https://2869191102-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FJ3HzhRDH8YbQSO5p2xjr%2Fuploads%2Fq6Xe968Jv2NH9dsNmWda%2Fimage.png?alt=media&#x26;token=c3fb8435-ce71-498c-b4b0-17583655fa9a" alt=""><figcaption><p>Figura 1.17. Tabla actividad_cliente</p></figcaption></figure>
+</div>
+
 ***
 
 ### Modelo entidad-relación
@@ -609,7 +631,7 @@ END;
 
 ***
 
-### Disparadores (triggers)
+### Triggers
 
 Los triggers son rutinas que se ejecutan automáticamente antes (`BEFORE`) o después (`AFTER`) de una operación de inserción, actualización o eliminación sobre una tabla. Hemos implementado tres triggers para automatizar tareas de auditoría y validación.
 
@@ -830,7 +852,7 @@ GRANT SELECT ON cyntia.respuestas_incidente TO 'cyntia_pro'@'%';
 
 #### Permisos de `cyntia_enterprise`
 
-El usuario enterprise dispone del nivel de acceso más elevado. Tiene permiso de `SELECT` sobre toda la base de datos (`cyntia.*`), permiso de `INSERT` y `UPDATE` sobre las tablas `alertas` y `respuestas_incidente`, y acceso de lectura a la tabla `registros_auditoria`. Esta última es especialmente relevante porque permite al cliente enterprise auditar todas las acciones realizadas en su entorno.
+El usuario enterprise dispone del nivel de acceso más elevado. Tiene permiso de `SELECT` sobre toda la base de datos (`cyntia.*`), permiso de `INSERT` y `UPDATE` sobre las tablas `alertas` y `respuestas_incidente`, y acceso de lectura a la tabla `actividad_cliente`.
 
 ```sql
 -- Lectura de toda la base de datos
@@ -840,8 +862,8 @@ GRANT SELECT ON cyntia.* TO 'cyntia_enterprise'@'%';
 GRANT INSERT, UPDATE ON cyntia.alertas              TO 'cyntia_enterprise'@'%';
 GRANT INSERT, UPDATE ON cyntia.respuestas_incidente TO 'cyntia_enterprise'@'%';
 
--- Acceso a registros de auditoría
-GRANT SELECT ON cyntia.registros_auditoria TO 'cyntia_enterprise'@'%';
+-- Acceso al registro de actividad del cliente (sin datos sensibles internos)
+GRANT SELECT ON cyntia.actividad_cliente TO 'cyntia_enterprise'@'%';
 ```
 
 Finalmente, aplicamos los cambios de privilegios con:
@@ -872,7 +894,7 @@ La siguiente tabla resume de forma visual qué puede hacer cada tipo de usuario 
 | `inteligencia_amenazas`    |    —   |    —   | SELECT |          SELECT          |
 | `respuestas_incidente`     |    —   |    —   | SELECT | SELECT + INSERT + UPDATE |
 | `alertas` (tabla base)     |    —   |    —   |    —   | SELECT + INSERT + UPDATE |
-| `registros_auditoria`      |    —   |    —   |    —   |          SELECT          |
+| `actividad_cliente`      |    —   |    —   |    —   |          SELECT          |
 
 </div>
 
@@ -1071,6 +1093,42 @@ Una vez ejecutado el script, conviene verificar que los triggers se han registra
 
 ***
 
+### 2. Revisión y mejoras del script
+
+Durante la revisión del código identificamos un aspecto que requerían corrección. Ninguno de los cambios altera el comportamiento de los triggers existentes.
+
+#### 2.2 Separación entre auditoría interna y actividad de cliente
+
+La tabla `registros_auditoria` contiene información que no debe exponerse a los clientes: el identificador del operador interno, la dirección IP desde la que actuó y el JSON completo con todos los cambios. Sin embargo, tiene sentido que un cliente pueda consultar qué tipo de operaciones se han realizado en su organización y cuándo.
+
+Para resolver esto sin modificar ningún trigger existente, hemos añadido dos objetos nuevos al final del archivo.
+
+El primero es la tabla `actividad_cliente`, que almacena únicamente los campos no sensibles: 
+* `org_id`
+* `accion`
+* `tipo_entidad`
+* `creado_en`
+
+El segundo es el trigger `propagar_actividad_cliente`, que se dispara automáticamente después de cada inserción en `registros_auditoria` y copia esos cuatro campos a la nueva tabla, ignorando los registros sin `org_id` asignado:
+
+```sql
+DELIMITER //
+CREATE TRIGGER propagar_actividad_cliente
+AFTER INSERT ON registros_auditoria
+FOR EACH ROW
+BEGIN
+    IF NEW.org_id IS NOT NULL THEN
+        INSERT INTO actividad_cliente (id, org_id, accion, tipo_entidad, creado_en)
+        VALUES (UUID(), NEW.org_id, NEW.accion, NEW.tipo_entidad, NEW.creado_en);
+    END IF;
+END //
+DELIMITER ;
+```
+
+> *Fragmento de código 5. Trigger `propagar_actividad_cliente`. La condición `IF NEW.org_id IS NOT NULL` filtra los registros de auditoría interna que no están asociados a ninguna organización de cliente.*
+
+***
+
 ## Conclusiones
 
 Hemos creado diecisiete triggers de auditoría distribuidos en las seis tablas que el modelo entidad-relación del proyecto identifica como críticas. Las decisiones de diseño más relevantes que tomamos son las siguientes:
@@ -1080,5 +1138,6 @@ Hemos creado diecisiete triggers de auditoría distribuidos en las seis tablas q
 * No existe trigger de `UPDATE` para `eventos`, ya que los registros de telemetría son inmutables y su modificación comprometería la integridad forense.
 * El `org_id` de `eventos` se resuelve mediante subconsulta a `agentes`, al no estar disponible directamente en esa tabla.
 * Todos los triggers leen la variable de sesión `@usuario_actual` para rellenar el campo `usuario_id`, con `NULL` como valor por defecto si la variable no está definida.
+* La tabla `registros_auditoria` es de uso exclusivo interno, es decir, los clientes acceden a la actividad de su organización a través de `actividad_cliente`, que se rellena automáticamente mediante el trigger `propagar_actividad_cliente` sin modificar ninguno de los diecisiete triggers originales.
 
 </details>
